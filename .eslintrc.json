@@ -4,7 +4,8 @@
   "plugins": ["@nx"],
   "overrides": [
     {
-      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "files": ["*.ts"],
+      "extends": ["plugin:sonarjs/recommended"],
       "rules": {
         "@nx/enforce-module-boundaries": [
           "error",
@@ -22,21 +23,92 @@
       }
     },
     {
-      "files": ["*.ts", "*.tsx"],
+      "files": ["*.ts"],
+      "plugins": ["import"],
       "extends": ["plugin:@nx/typescript"],
-      "rules": {}
+      "rules": {
+        "lines-between-class-members": [
+          "error",
+          "always",
+          {
+            "exceptAfterSingleLine": true
+          }
+        ],
+        "complexity": ["error", 7],
+        "curly": "error",
+        "max-lines": [
+          "error",
+          { "max": 400, "skipBlankLines": true, "skipComments": true }
+        ],
+        "max-lines-per-function": ["error", 75],
+        "padding-line-between-statements": [
+          "error",
+          {
+            "blankLine": "always",
+            "prev": "*",
+            "next": ["return", "block-like"]
+          },
+          {
+            "blankLine": "always",
+            "prev": ["case", "default", "block-like"],
+            "next": "*"
+          }
+        ],
+        "no-console": [
+          "error",
+          {
+            "allow": ["warn", "error"]
+          }
+        ],
+        "no-lonely-if": "error",
+        "no-new-wrappers": "error",
+        "no-param-reassign": "error",
+        "no-constant-condition": "error",
+        "no-unused-private-class-members": "error",
+        "default-case": "warn",
+        "eqeqeq": "error",
+        "no-nested-ternary": "error",
+        "no-unneeded-ternary": "error",
+        "no-continue": "error",
+        "no-useless-return": "error",
+        "no-else-return": "error",
+        "consistent-return": "error",
+        "import/newline-after-import": "error",
+        "no-shadow": "off",
+        "@typescript-eslint/no-shadow": "error",
+        "@typescript-eslint/explicit-member-accessibility": [
+          "error",
+          {
+            "accessibility": "explicit",
+            "overrides": {
+              "constructors": "no-public"
+            }
+          }
+        ],
+        "@typescript-eslint/explicit-function-return-type": "error",
+        "@typescript-eslint/no-unused-vars": [
+          "error",
+          {
+            "argsIgnorePattern": "^_",
+            "varsIgnorePattern": "^_",
+            "caughtErrorsIgnorePattern": "^_"
+          }
+        ],
+        "@typescript-eslint/no-explicit-any": "warn"
+      }
     },
     {
-      "files": ["*.js", "*.jsx"],
-      "extends": ["plugin:@nx/javascript"],
-      "rules": {}
+      "files": ["*.html"],
+      "rules": {
+        "@angular-eslint/template/prefer-self-closing-tags": ["error"]
+      }
     },
     {
-      "files": ["*.spec.ts", "*.spec.tsx", "*.spec.js", "*.spec.jsx"],
-      "env": {
-        "jest": true
-      },
-      "rules": {}
+      "files": ["*.spec.ts"],
+      "rules": {
+        "max-lines": "off",
+        "max-lines-per-function": "off"
+      }
     }
   ]
 }
