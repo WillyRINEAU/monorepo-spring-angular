@@ -1,0 +1,16 @@
+spring:
+    application:
+        name: monorepo-back
+    actuator:
+        metrics:
+        export:
+            prometheus:
+            enabled: true
+    devtools:
+        livereload:
+            enabled: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: [ "prometheus" ]
