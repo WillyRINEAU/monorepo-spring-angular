@@ -1,7 +1,7 @@
 {
-  "name": "features",
+  "name": "shared-ui",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/frontend/features/src",
+  "sourceRoot": "libs/frontend/shared-ui/src",
   "prefix": "lib",
   "projectType": "library",
   "tags": [],
@@ -12,11 +12,64 @@
         "{workspaceRoot}/coverage/{projectRoot}"
       ],
       "options": {
-        "jestConfig": "libs/frontend/features/jest.config.ts"
+        "jestConfig": "libs/frontend/shared-ui/jest.config.ts"
       }
     },
     "lint": {
       "executor": "@nx/eslint:lint"
+    },
+    "storybook": {
+      "executor": "@storybook/angular:start-storybook",
+      "options": {
+        "port": 4400,
+        "configDir": "libs/frontend/shared-ui/.storybook",
+        "browserTarget": "monorepo-front:build",
+        "compodoc": false
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "build-storybook": {
+      "executor": "@storybook/angular:build-storybook",
+      "outputs": [
+        "{options.outputDir}"
+      ],
+      "options": {
+        "outputDir": "dist/storybook/shared-ui",
+        "configDir": "libs/frontend/shared-ui/.storybook",
+        "browserTarget": "shared-ui:build",
+        "compodoc": false
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "test-storybook": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "test-storybook -c libs/frontend/shared-ui/.storybook --url=http://localhost:4400"
+      }
+    },
+    "static-storybook": {
+      "executor": "@nx/web:file-server",
+      "dependsOn": [
+        "build-storybook"
+      ],
+      "options": {
+        "buildTarget": "shared-ui:build-storybook",
+        "staticFilePath": "dist/storybook/shared-ui",
+        "spa": true
+      },
+      "configurations": {
+        "ci": {
+          "buildTarget": "shared-ui:build-storybook:ci"
+        }
+      }
     }
   }
 }

@@ -19,3 +19,9 @@ Run `npx nx connect-to-nx-cloud` to enable [remote caching](https://nx.app) and 
 ## Further help
 
 Visit the [Nx Documentation](https://nx.dev) to learn more.
+
+
+## Librairies à ajouter prochainement
+
+- [ ] [Chaos](https://www.sfeir.dev/back/introduisez-du-chaos-dans-votre-application-spring-boot/) Librairie backend pour tester la résilience de ses infrastructures informatiques
+- [ ] [Offat](https://github.com/OWASP/OFFAT) Librairie backend pour tester la vulnérabilité des endpoints

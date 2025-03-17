@@ -17,10 +17,15 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@frontend/features": [
+        "libs/frontend/features/src/index.ts"
+      ]
+    }
   },
   "exclude": [
     "node_modules",
     "tmp"
-  ]
+  ],
+
 }

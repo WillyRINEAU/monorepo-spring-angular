@@ -1,14 +1,51 @@
 services:
+  spring-app:
+    build:
+      context: .
+      dockerfile: docker/spring.Dockerfile
+    container_name: spring-application
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - JAVA_OPTS=-Xmx512m
+    networks:
+      - app-network
+    restart: always
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/actuator/health" ]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 60s
+
+  angular-app:
+    build:
+      context: .
+      dockerfile: docker/angular.Dockerfile
+    container_name: angular-application
+    ports:
+      - "80:80"
+#    depends_on:
+#      - spring-app
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:80/" ]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
   prometheus:
     image: prom/prometheus:v2.44.0
     container_name: prometheus
     ports:
       - "9090:9090"
     volumes:
-      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
     networks:
         - monitoring
-
   grafana:
     image: grafana/grafana:9.5.2
     container_name: grafana
@@ -16,9 +53,11 @@ services:
       - "3000:3000"
     restart: unless-stopped
     volumes:
-      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+      - ./monitoring/grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
     networks:
       - monitoring
 networks:
   monitoring:
+    driver: bridge
+  app-network:
     driver: bridge

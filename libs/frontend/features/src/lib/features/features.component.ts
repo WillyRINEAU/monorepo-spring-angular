@@ -4,8 +4,8 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'lib-features',
   imports: [CommonModule],
-  templateUrl: './button.component.html',
-  styleUrl: './button.component.scss',
+  templateUrl: './features.component.html',
+  styleUrl: './features.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ButtonComponent {}
+export class FeaturesComponent {}

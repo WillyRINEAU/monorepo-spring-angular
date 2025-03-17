@@ -1,5 +1,5 @@
 export default {
-  displayName: 'shared-ui',
+  displayName: 'features',
   preset: '../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   coverageDirectory: '../../../coverage/libs/frontend',
